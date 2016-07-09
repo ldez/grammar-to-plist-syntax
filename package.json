@@ -1,0 +1,18 @@
+{
+  "name": "grammar-to-plist",
+  "version": "1.0.0",
+  "description": "Convert Atom grammar to VSCode syntaxe",
+  "main": "index.js",
+  "keywords": [
+    "atom",
+    "vscode",
+    "grammar",
+    "syntaxe",
+    "language"
+  ],
+  "author": "ldez",
+  "dependencies": {
+    "season": "^5.3",
+    "plist": "^1.2.0"
+  }
+}
