@@ -8,21 +8,11 @@ var path = require('path');
 
 const atomGrammarUrl = 'https://raw.githubusercontent.com/asciidoctor/atom-language-asciidoc/master/grammars/language-asciidoc.cson';
 const filepath = path.resolve(__dirname, 'language-asciidoc.cson');
-const vscodeSyntaxeFilePath = path.resolve(__dirname, 'asciidoc.tmLanguage');
+const vscodeSyntaxeFileName = path.resolve(__dirname, 'asciidoc');
 
-// ESSAI 01
-// let file = fs.createWriteStream(filepath);
-// https.get(atomGrammarUrl, (response) => {
-//   response.pipe(file);
-// })
-//
-// let grammarCson = CSON.readFileSync(filepath);
-// let syntaxes = plist.build(grammarCson);
-//
-// fs.writeFileSync(vscodeSyntaxeFilePath, syntaxes);
-//
+// TODO remplace `\p` automatically
 
-// ESSAI 02
+// Download and store file
 let download = (url, outputPath) => {
   let fileStream = fs.createWriteStream(outputPath);
   return new Promise((resolve, reject) => {
@@ -35,7 +25,14 @@ let download = (url, outputPath) => {
   });
 };
 
+// to plist
 download(atomGrammarUrl, filepath)
   .then((file) => CSON.readFileSync(file))
   .then((grammar) => plist.build(grammar))
-  .then((syntaxe) => fs.writeFileSync(vscodeSyntaxeFilePath, syntaxe));
+  .then((syntaxe) => fs.writeFileSync(vscodeSyntaxeFileName + ".tmLanguage", syntaxe));
+
+// to json
+download(atomGrammarUrl, filepath)
+  .then((file) => CSON.readFileSync(file))
+  .then((grammar) => JSON.stringify(grammar, undefined, 2))
+  .then((json) => fs.writeFileSync(vscodeSyntaxeFileName + ".json", json));
